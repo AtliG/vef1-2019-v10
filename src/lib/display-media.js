@@ -6,6 +6,7 @@ import { save, load } from './storage';
 let title; // titill fyrir mynd á forsíðu
 let text; // texti fyrir mynd á forsíðu
 let img; // mynd á forsíðu
+let video;
 
 let image; // object sem inniheldur núverandi mynd á forsíðu.
 
@@ -19,7 +20,17 @@ async function getNewImage() {
   console.log('Hello');
   text.innerText = image.text;
   title.innerText = image.title;
-  img.src = image.mediaUrl;
+  if(image.type === 'video') {
+    video.src = image.mediaUrl;
+
+    video.style.display = 'visible';
+    img.style.display = 'none';
+  }else{
+    img.src = image.mediaUrl;
+
+    img.style.display = 'visible';
+    video.style.display = 'none';
+  }
 }
 
 /*
@@ -38,6 +49,7 @@ export default function init(apod) {
   text = document.querySelector('.apod__text');
   title = document.querySelector('.apod__title');
   img = document.querySelector('.apod__image');
+  video = document.querySelector('.apod__video');
 
   document.querySelector('#new-image-button').addEventListener('click', getNewImage);
   document.querySelector('#save-image-button').addEventListener('click', saveCurrentImage);
@@ -50,21 +62,28 @@ export default function init(apod) {
  */
 export function loadFavourites() {
   const main = document.querySelector('main');
-  console.log('Vistaðar myndir comin up');
   var storedImages = load();
   storedImages.forEach((obj) => {
     const titleElement = document.createElement('h1');
     titleElement.innerText = obj.title;
-
-    const imgElement = document.createElement('img');
-    imgElement.src = obj.mediaUrl;
-    imgElement.classList.add('apod__image');
-
     const item = document.createElement('div');
     item.classList.add('apod');
     item.appendChild(titleElement);
-    item.appendChild(imgElement);
-
-    main.appendChild(item);
+    if (obj.type === 'video') {
+      const videoElement = document.createElement('iframe');
+      videoElement.src = obj.mediaUrl;
+      videoElement.width = '420';
+      videoElement.height = '315';
+      videoElement.frameBorder = '0';
+      item.appendChild(videoElement);  
+    }else {
+      const imgElement = document.createElement('img');
+      imgElement.src = obj.mediaUrl;
+      imgElement.classList.add('apod__image');
+      
+      item.appendChild(imgElement);  
+    }
+    main.appendChild(item); 
   });
+
 }

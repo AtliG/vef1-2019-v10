@@ -17,6 +17,8 @@ export default async function getRandomImage() {
   var randomDate = getRandomDate();
   const searchString = URL + randomDate;
 
+  // const searchString = URL + '2018-11-01';
+
   const res = await fetch(searchString);
   const{
     media_type: type,
