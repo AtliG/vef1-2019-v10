@@ -29,7 +29,6 @@ function getRandomDate() {
 export default async function getRandomImage() {
   const randomDate = getRandomDate();
   const searchString = URL + randomDate;
-
   // const searchString = URL + '2014-10-05';
 
   const res = await fetch(searchString);
