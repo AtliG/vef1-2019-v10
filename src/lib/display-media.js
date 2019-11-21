@@ -17,15 +17,14 @@ let image; // object sem inniheldur núverandi mynd á forsíðu.
 async function getNewImage() {
   image = await getRandomImage();
   console.log(image);
-  console.log('Hello');
   text.innerText = image.text;
   title.innerText = image.title;
-  if(image.type === 'video') {
+  if (image.type === 'video') {
     video.src = image.mediaUrl;
 
     video.style.display = 'visible';
     img.style.display = 'none';
-  }else{
+  } else {
     img.src = image.mediaUrl;
 
     img.style.display = 'visible';
@@ -37,7 +36,6 @@ async function getNewImage() {
  * Vistar núverandi mynd í storage.
  */
 function saveCurrentImage() {
-  console.log('I work!');
   save(image.type, image.mediaUrl, image.text, image.title);
 }
 
@@ -45,7 +43,7 @@ function saveCurrentImage() {
  * Upphafsstillir forsíðuna. Setur event listeners á takkana, og sækir eina mynd.
  *
  */
-export default function init(apod) {
+export default function init(apod) { // eslint-disable-line no-unused-vars
   text = document.querySelector('.apod__text');
   title = document.querySelector('.apod__title');
   img = document.querySelector('.apod__image');
@@ -62,7 +60,7 @@ export default function init(apod) {
  */
 export function loadFavourites() {
   const main = document.querySelector('main');
-  var storedImages = load();
+  const storedImages = load();
   storedImages.forEach((obj) => {
     const titleElement = document.createElement('h1');
     titleElement.innerText = obj.title;
@@ -75,15 +73,14 @@ export function loadFavourites() {
       videoElement.width = '420';
       videoElement.height = '315';
       videoElement.frameBorder = '0';
-      item.appendChild(videoElement);  
-    }else {
+      item.appendChild(videoElement);
+    } else {
       const imgElement = document.createElement('img');
       imgElement.src = obj.mediaUrl;
       imgElement.classList.add('apod__image');
-      
-      item.appendChild(imgElement);  
-    }
-    main.appendChild(item); 
-  });
 
+      item.appendChild(imgElement);
+    }
+    main.appendChild(item);
+  });
 }
